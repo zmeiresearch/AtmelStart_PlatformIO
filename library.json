@@ -1,5 +1,18 @@
 {
-  "name": "AtmelStartASF4",
+  "name": "AtmelStart_PlatformIO",
+  "description": "Automatic download and build as PlatformIO dependency given atstart configuration file.",
+  "keywords": "atmel,start,atstart",
+  "authors": {
+      "name": "Frank Leon Rose",
+      "email": "frankleonrose@gmail.com"
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/frankleonrose/AtmelStart_PlatformIO.git"
+  },
+  "version": "1.0.0",
+  "frameworks": "",
+  "platforms": "atmelsam",
   "build": {
     "libArchive": false,
     "extraScript": "library.py"
