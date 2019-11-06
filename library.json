@@ -1,0 +1,7 @@
+{
+  "name": "AtmelStartASF4",
+  "build": {
+    "libArchive": false,
+    "extraScript": "library.py"
+  }
+}
