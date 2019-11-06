@@ -14,11 +14,28 @@ import zipfile
 import os
 import os.path
 import sys
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
 
-input_filename = "atmel_start_config.atstart"
+global_env = DefaultEnvironment()
+Import('env')
+
 output_filename = "output.json"
-DOWNLOAD_DIR = ".downloads"
+DOWNLOAD_DIR = os.path.join(env['PROJECTWORKSPACE_DIR'], ".downloads")
 PACKAGES_DIR = "packages"
+
+config = configparser.ConfigParser()
+config.read(env['PROJECT_CONFIG'])
+atstart_file = config.get('env:' + env['PIOENV'], "atstart_file", fallback=None)
+if atstart_file is None:
+    sys.stderr.write("Error: Please specify property `atstart_file = myproject.atstart`.\nThe file is expected to be in the project source directory.\n")
+    env.Exit(1)
+input_filename = os.path.join(env['PROJECTSRC_DIR'], atstart_file)
+if not os.path.isfile(input_filename):
+    sys.stderr.write("Error: atstart_file specifies a non-existent or invalid file: {}\n".format(input_filename))
+    env.Exit(1)
 
 def convert_config_yaml_to_json(input, output):
     def dictToArray(d, idKey):
@@ -115,10 +132,6 @@ def download_package(config_file, download_dir, packages_dir):
 
 convert_config_yaml_to_json(input_filename, output_filename)
 package_dir = download_package(output_filename, DOWNLOAD_DIR, PACKAGES_DIR)
-
-global_env = DefaultEnvironment()
-
-Import('env')
 
 def valid_source(p):
     return "armcc" not in p and "IAR" not in p and "RVDS" not in p
