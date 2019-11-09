@@ -8,12 +8,18 @@
 
 import json
 import requests
-import yaml
-from yaml import CLoader as Loader
 import zipfile
 import os
 import os.path
 import sys
+
+try:
+    import yaml
+except ImportError:
+    env.Execute("$PYTHONEXE -m pip install pyyaml")
+    import yaml
+from yaml import CLoader as Loader
+
 try:
     import configparser
 except ImportError:
