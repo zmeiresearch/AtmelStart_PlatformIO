@@ -147,7 +147,6 @@ include_paths = []
 source_paths = []
 linker_script = None
 for dirpath, dirnames, filenames in os.walk(package_dir):
-    # if "portable" not in dirpath or "GCC" in dirpath: # Exclude 'portable' include_paths for compilers other than GCC
     if valid_source(dirpath):
         if any(".h" in fn for fn in filenames):
             include_paths.append(dirpath)
