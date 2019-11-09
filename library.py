@@ -115,9 +115,9 @@ def download_package(config_file, download_dir, packages_dir):
     os.makedirs(download_dir, exist_ok=True)
     filename = os.path.join(download_dir, hash + '.zip')
     if os.path.isfile(filename):
-        print('NOTE:', filename, 'already downloaded. Delete it and re-run if you want to re-download')
+        print('NOTE: Atmel Start package', filename, 'already downloaded. Delete it and re-run if you want to re-download')
     else:
-        print("Downloading", filename, "...")
+        print("Downloading Atmel Start package", filename, "...")
         with open(config_file, 'r') as project_json:
             headers = {'content-type': 'text/plain'}
             r = requests.post('http://start.atmel.com/api/v1/generate/?format=atzip&compilers=[atmel_studio,make]&file_name_base=atmel_start_config', headers=headers, data=project_json)
