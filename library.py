@@ -6,12 +6,13 @@
 # this library will download and correctly build the generated code as a simple
 # dependenty library in PlatformIO.
 
+import sys
+import os
+import os.path
+import re
 import json
 import requests
 import zipfile
-import os
-import os.path
-import sys
 
 try:
     import yaml
@@ -158,9 +159,34 @@ for dirpath, dirnames, filenames in os.walk(package_dir):
             if "flash.ld" in fn:
                 linker_script = os.path.realpath(os.path.join(dirpath, fn))
 
-if linker_script is None:
+if linker_script is None or not os.path.isfile(linker_script):
     sys.stderr.write("Error: Failed to find linker script in downloaded package.\n")
     env.Exit(1)
+
+def adjust_linker_offset(script_name, ldscript):
+    offset_address = env.BoardConfig().get("upload.offset_address", "0")
+    if int(offset_address, 0)==0:
+        return ldscript
+
+    content = ""
+    with open(ldscript) as fp:
+        content = fp.read()
+        # original:     rom      (rx)  : ORIGIN = 0x00000000, LENGTH = 0x00040000
+        # transformed:  rom      (rx)  : ORIGIN = 0x00000000+0x2000, LENGTH = 0x00040000-0x2000
+        content = re.sub(
+            r"^(\s*rom.*ORIGIN[^,]+)(,\s*LENGTH.*)$",
+            r"\1+%s\2-%s" % (offset_address, offset_address),
+            content, flags=re.MULTILINE)
+
+    offset_script = os.path.join(env.subst('$PROJECTBUILD_DIR'),
+                    "%s_flash_%s.ld" % (script_name, offset_address))
+
+    with open(offset_script, "w") as fp:
+        fp.write(content)
+
+    return offset_script
+
+linker_script = adjust_linker_offset(env.subst('$PIOENV'), linker_script)
 
 global_env.Append(CPPPATH=[os.path.realpath(p) for p in include_paths])
 env.Append(
