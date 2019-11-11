@@ -33,6 +33,7 @@ The magic happens by an extra script in the AtmelStart_PlatformIO. This script w
 - automatically update the custom board file when chosing a different mcu. It should not only update the mcu name but also the openocd name and target, find the corresponding svd file (e.g. downloading it from: http://packs.download.atmel.com/ ) and update the ram size 
 - a bootloader offset is currently not taken into account, due to a bug (https://github.com/platformio/platformio-core/issues/3264) that prevents using custom board definitions in library scripts.
 - add a custom task / command to easily go to the online Atmel START tool with the current .atstart file preloaded (not sure if there is an atmel start rest api for this...)
+- atmel start rest api contains a bug that sets all clock frequencies in the peripheral_clk_config.h file to 0. This results in incorrect configuration of the components. When you download the atstart package directly from the atmel start web tool peripheral_clk_config.h is correctly populated.
 
 ## Credits:
 - [Frank Leon Rose](https://github.com/frankleonrose)
