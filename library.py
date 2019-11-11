@@ -14,23 +14,23 @@ import json
 import requests
 import zipfile
 
+global_env = DefaultEnvironment()
+
+print('Start')
 try:
     import yaml
 except ImportError:
     env.Execute("$PYTHONEXE -m pip install pyyaml")
     import yaml
-from yaml import CLoader as Loader
+from yaml import Loader
 
 try:
     import configparser
 except ImportError:
     import ConfigParser as configparser
 
-global_env = DefaultEnvironment()
-Import('env')
-
 output_filename = "output.json"
-DOWNLOAD_DIR = os.path.join(env['PROJECTWORKSPACE_DIR'], ".downloads")
+DOWNLOAD_DIR = os.path.join(env['PROJECT_WORKSPACE_DIR'], ".downloads")
 PACKAGES_DIR = "packages"
 
 config = configparser.ConfigParser()
@@ -177,7 +177,7 @@ def adjust_linker_offset(script_name, ldscript):
             r"\1+%s\2-%s" % (offset_address, offset_address),
             content, flags=re.MULTILINE)
 
-    offset_script = os.path.join(env.subst('$PROJECTBUILD_DIR'),
+    offset_script = os.path.join(env.subst('$PROJECT_BUILD_DIR'),
                     "%s_flash_%s.ld" % (script_name, offset_address))
 
     with open(offset_script, "w") as fp:
@@ -185,7 +185,8 @@ def adjust_linker_offset(script_name, ldscript):
 
     return offset_script
 
-linker_script = adjust_linker_offset(env.subst('$PIOENV'), linker_script)
+# following function does not work with custom board due to platformio bug
+# linker_script = adjust_linker_offset(env.subst('$PIOENV'), linker_script)
 
 global_env.Append(CPPPATH=[os.path.realpath(p) for p in include_paths])
 env.Append(
@@ -204,5 +205,5 @@ env.Append(
     SRC_FILTER=sources
 )
 
-global_env.Replace(
-    LDSCRIPT_PATH=linker_script)
+env.Append(
+    LINKFLAGS=['-T',linker_script])
