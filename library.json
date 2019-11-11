@@ -2,15 +2,21 @@
   "name": "AtmelStart_PlatformIO",
   "description": "Automatic download and build as PlatformIO dependency given atstart configuration file.",
   "keywords": "atmel,start,atstart",
-  "authors": {
+  "authors": [
+    {
       "name": "Frank Leon Rose",
       "email": "frankleonrose@gmail.com"
-  },
+    },
+    {
+      "name": "Jelle Roets",
+      "email": "jelleroets@outlook.be"
+    }
+  ],
   "repository": {
       "type": "git",
-      "url": "https://github.com/frankleonrose/AtmelStart_PlatformIO.git"
+      "url": "https://github.com/JelleRoets/AtmelStart_PlatformIO.git"
   },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "frameworks": "",
   "platforms": "atmelsam",
   "build": {
