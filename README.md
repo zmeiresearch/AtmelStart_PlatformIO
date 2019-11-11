@@ -23,6 +23,9 @@ lib_deps = https://github.com/JelleRoets/AtmelStart_PlatformIO ; library that wi
 
 Now you should be all set to further extend your project, compile, upload and debug your project with all features from platformIO.
 
+## Examples
+You can find an example in `examples\ArduinoZeroASF`, where I use Atmel Start and ASF4 libraries to create and debug a blink example project for the Arduino Zero. You simply do `platformio run` and / or ` platformio run --target upload ` (Note that uploading the binary with a debugger to the arduino zero will remove the existing bootloader). 
+
 ## Some background info
 The magic happens by an extra script in the AtmelStart_PlatformIO. This script will download the package according to the given atstart file. It will include all headers and compile all library files when compiling the project. Everytime the .atstart file changes (when you updated your config in the web based atmel START tool) it will download a new package and use the (converted) .atstart file as a hash.
 
