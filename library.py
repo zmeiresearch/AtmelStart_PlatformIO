@@ -15,7 +15,7 @@ import requests
 import zipfile
 
 global_env = DefaultEnvironment()
-
+Import('env')
 print('Start')
 try:
     import yaml
@@ -39,7 +39,7 @@ atstart_file = config.get('env:' + env['PIOENV'], "atstart_file", fallback=None)
 if atstart_file is None:
     sys.stderr.write("Error: Please specify property `atstart_file = myproject.atstart`.\nThe file is expected to be in the project source directory.\n")
     env.Exit(1)
-input_filename = os.path.join(env['PROJECTSRC_DIR'], atstart_file)
+input_filename = os.path.join(env['PROJECT_DIR'], atstart_file)
 if not os.path.isfile(input_filename):
     sys.stderr.write("Error: atstart_file specifies a non-existent or invalid file: {}\n".format(input_filename))
     env.Exit(1)
