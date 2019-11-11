@@ -16,7 +16,7 @@ import zipfile
 
 global_env = DefaultEnvironment()
 Import('env')
-print('Start')
+
 try:
     import yaml
 except ImportError:
