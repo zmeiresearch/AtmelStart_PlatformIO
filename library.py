@@ -185,8 +185,7 @@ def adjust_linker_offset(script_name, ldscript):
 
     return offset_script
 
-# following function does not work with custom board due to platformio bug
-# linker_script = adjust_linker_offset(env.subst('$PIOENV'), linker_script)
+linker_script = adjust_linker_offset(env.subst('$PIOENV'), linker_script)
 
 global_env.Append(CPPPATH=[os.path.realpath(p) for p in include_paths])
 env.Append(
