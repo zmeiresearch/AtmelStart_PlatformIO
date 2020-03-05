@@ -20,6 +20,7 @@ platform = atmelsam
 board = myboard ; custom board as created in step 4
 atstart_file = myAtStartProject.atstart ; name of the downloaded atstart file from step 3
 lib_deps = https://github.com/JelleRoets/AtmelStart_PlatformIO ; library that will download and include all ASF libraries as configured in the atstart file
+lib_archive = no ; prevents archiving ASF library to avoid linking problems
 ```
 
 6. From the moment you save the ini file (or run `platformio run` for the first time) it will download the package in `.pio/libdeps/[env]/AtmelStart_PlatformIO/packages/[someHash]`
@@ -38,10 +39,9 @@ The magic happens by an extra script in the AtmelStart_PlatformIO. This script w
 ## TODO
 
 - automatically update the custom board file when chosing a different mcu. It should not only update the mcu name but also the openocd name and target, find the corresponding svd file (e.g. downloading it from: http://packs.download.atmel.com/ ) and update the ram size
-- a bootloader offset is currently not taken into account, due to a bug (https://github.com/platformio/platformio-core/issues/3264) that prevents using custom board definitions in library scripts.
 - add a custom task / command to easily go to the online Atmel START tool with the current .atstart file preloaded (not sure if there is an atmel start rest api for this...)
 - atmel start rest api contains a bug that sets all clock frequencies in the peripheral_clk_config.h file to 0. This results in incorrect configuration of the components. When you download the atstart package directly from the atmel start web tool peripheral_clk_config.h is correctly populated.
-- Before you can correctly compile the program you must copy the `'*/gcc/gcc/startup_*.c` file from the downloaded and extracted atstart package folder to the project source dir.
+- Althoug the `build.libArchive` flag is set to false in the `library.json` file, it does seems to archive the ASF code due to a bug in platform IO, which breaks the linking. So make sure to set the `lib_archive = no` in the `platformio.ini` instead
 
 ## Credits:
 

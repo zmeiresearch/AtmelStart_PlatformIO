@@ -198,10 +198,6 @@ def src_dir(*x):
 sources = ["-<*>"]
 sources.extend(["+<{}>".format(src_dir(sp, '*.c')) for sp in source_paths])
 sources.append("-<{}>".format(src_dir(package_dir, 'main.c')))
-# avoid including startup script in library archive
-sources.append("-<{}>".format(src_dir(package_dir, '*/gcc/gcc/startup_*.c')))
-# IMPORTANT: copy this startup_ file to the source dir!
-# TODO: How to automate this?
 
 env.Append(
     srcDir=package_dir,
