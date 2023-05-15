@@ -141,7 +141,7 @@ convert_config_yaml_to_json(input_filename, output_filename)
 package_dir = download_package(output_filename, DOWNLOAD_DIR, PACKAGES_DIR)
 
 def valid_source(p):
-    return "armcc" not in p and "IAR" not in p and "RVDS" not in p and "examples" not in p
+    return "armcc" not in p and "IAR" not in p and "iar" not in p and "keil" not in p and "RVDS" not in p and "examples" not in p
 
 include_paths = []
 source_paths = []
